@@ -6,40 +6,53 @@ describe('Runner', function() {
 
 	var runner = require('../lib/runner');
 
-	it('should detect if PHPUnit is installed', function(done) {
-		var watcher  = sinon.mock(watchr).expects('start').once();
-		var sut      = new runner();
+    it('should use default config if nothing is provided', function(done) {
+        var sut = new runner();
+        assert.deepEqual(sut.getOptions(), {
+            options: '--colors',
+            pathList: [],
+            phpunit: 'phpunit'
+        });
+        done();
+    });
 
-		sut.start();
-		assert.equal('phpunit --version', exec.getCall(0).args[0]);
-		assert.ok(watcher.calledOnce);
-		watchr.watch.restore();
-		done();
-	});
-
-	it('should not watch directory if PHPUnit is not available', function(done) {
-		var watcher  = sinon.mock(watchr).expects('start').never();
-		var response = sinon.stub('NOT', 'match').withArgs(/^PHPUnit/).returns(false);
-		var exec     = sinon.stub().withArgs('phpunit --version').returns({}, response);
-		var sut = new runner();
-
-		sut.start();
-		assert.ok(exec.calledOnce);
-		assert.equal('phpunit --version', exec.getCall(0).args[0]);
-		watchr.watch.restore();
-		done();
-	});
-
-	it('should default configuration to colors', function(done) {
-		var sut = new runner();
-		assert.equal(sut.getOptions(), '--colors');
-		done();
-	});
+    it('can set path of phpunit executable', function(done) {
+        var sut = new runner();
+        sut.setOptions({
+            phpunit: '/project/phpunit'
+        });
+        assert.deepEqual(sut.getOptions(), {
+            options: '--colors',
+            pathList: [],
+            phpunit: '/project/phpunit'
+        });
+        done();
+    });
 
 	it('can set configuration for PHPUnit', function(done) {
 		var sut = new runner();
-		sut.setup('--strict');
-		assert.equal(sut.getOptions(), '--strict');
+		sut.setOptions({
+            options: '--strict'
+        });
+		assert.deepEqual(sut.getOptions(), {
+            options: '--strict',
+            pathList: [],
+            phpunit: 'phpunit'
+        });
 		done();
 	});
+
+    it('can set paths to watch', function(done) {
+        var sut = new runner();
+        sut.setOptions({
+            pathList: ['foo', 'bar']
+        });
+        assert.deepEqual(sut.getOptions(), {
+            options: '--colors',
+            pathList: ['foo', 'bar'],
+            phpunit: 'phpunit'
+        });
+        done();
+    });
+
 });
