@@ -3,54 +3,53 @@ phpunit-watchr
 
 A [NodeJS](http://nodejs.org) app to watch directories and run [PHPUnit](http://www.phpunit.de/) tests.
 
-[![Build Status](https://travis-ci.org/jrcryer/phpunit-watchr.png)](https://travis-ci.org/jrcryer/phpunit-watchr)
+[![Build Status](https://travis-ci.org/pyriand3r/phpunit-watchr.svg?branch=master)](https://travis-ci.org/pyriand3r/phpunit-watchr.svg?branch=master)
 
-*This project is no longer maintained.  Please see: https://github.com/SaschaGalley/grunt-phpunit to automate running your PHPUnit test runner.*
 
-Installation
-------------
+# Installation
+
 The following command will install the application. Use `-g` to install as a global binary.
 
 ```sh
-[sudo] npm install [-g] phpunit-watchr
+[sudo] npm install [-g] phpunit-watchr-2
 ```
 
-Running The Server
-------------------
+# Running The Server
+
 Running the app is easy. If you installed globally, then starting the app is as easy as:
 
 ```sh
-phpunit-watchr [path] [phpunit-configuration]
+phpunit-watchr [path to phpunit executable to use] [paths to watch recursivly] [phpunit-configuration]
 ```
 
-The path and phpunit-configuration will default to `./tests` and `--colors` respectively.
+To define more than one path to watch separate them with a comma, e.g.: `/tests,/src`
+
+## Defaults
+
+* **phpunit-executable** = `phpunit`
+* **paths** = ` . `
+* **phpunit-parameter** = `--colors`
 
 ### Example usage
 
+Setting phpunit-executable:
+
+    phpunit-watchr /project/vendor/phpunit/phpunit/phpunit
+
 Setting path:
 
-```sh
-phpunit-watchr './php/tests'
-```
+    phpunit-watchr null './php/tests'
 
 Setting paths:
 
-```sh
-phpunit-watchr ./php/tests,./tests
-```
+    phpunit-watchr null ./php/tests,./tests
 
 Setting [PHPUnit configuration](http://www.phpunit.de/manual/current/en/appendixes.configuration.html):
 
-```sh
-phpunit-watchr './php/tests' '--strict --colors'
-```
+    phpunit-watchr null './php/tests' '--strict --colors'
 
-Future Features 
----------------
 
-* Notification integration
+# Licence
 
-Licence
--------
-This project is licensed under [MIT](https://github.com/jrcryer/phpunit-watchr/blob/master/LICENSE-MIT)
+This project is licensed under [MIT](https://github.com/pyriand3r/phpunit-watchr/blob/master/LICENSE-MIT)
 license.
